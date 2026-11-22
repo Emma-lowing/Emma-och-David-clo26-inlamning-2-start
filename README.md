@@ -8,8 +8,8 @@
 
 Det här repot innehåller tolv projektmallar: fyra projekt (Hushållsbudget, Träningsbok, Sportstatistik, Recept) i tre gränssnitt (konsol, MVC, Blazor). Ni använder **en**.
 
-1. **Välj ett projekt och ett gränssnitt, och radera de elva andra.** Ta bort mapparna och deras rader i `Projekt.slnx`. Kör sedan `dotnet build Projekt.slnx`: finns det kvar rader för borttagna mappar går bygget sönder.
-2. **Forka repot.** Klicka på **Fork** uppe till höger på repots GitHub-sida, och välj ert eget konto. Klona sedan **er** fork (inte originalrepot): `git clone https://github.com/<ert-användarnamn>/<repo-namn>.git`.
+1. **Forka repot.** Klicka på **Fork** uppe till höger på repots GitHub-sida, och välj ert eget konto.
+2. **Klona er fork** (inte originalrepot): `git clone https://github.com/<ert-användarnamn>/<repo-namn>.git`. Välj sedan ett projekt och ett gränssnitt, och radera de elva andra mapparna och deras rader i `Projekt.slnx`. Kör `dotnet build Projekt.slnx`. Finns det kvar rader för borttagna mappar går bygget sönder. Committa och pusha ändringarna till **er fork**.
 3. **Bjud in `marcusjobb`** som medarbetare: **Settings → Collaborators → Add people**.
 4. **Sätt upp en kanban** i Trello eller GitHub Projects. Bjud in `marcusjobb` så att läraren ser den.
 5. **Fyll i `GRUPP.md`**: gruppnamn, medlemmar, valt projekt, valt databas, kanban-länk och era gruppregler.
