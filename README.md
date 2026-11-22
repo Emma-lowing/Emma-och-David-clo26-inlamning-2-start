@@ -23,6 +23,8 @@ Det här repot innehåller tolv projektmallar: fyra projekt (Hushållsbudget, Tr
 
 **README:n skriver ni själva.** Mallen är ett skelett. AI får användas, men det ska deklareras. Att köra kodkontrollen räknas också som AI-stöd.
 
+**Anpassa README:n till er presentation av projektet.** Skriv om den så att den beskriver ert projekt och era val, och inte står samma sak som mallen. Ta bort alla hakparenteser, instruktionstexter och kommentarer som bara hör till mallen.
+
 **Git:** gör varje commit med er egen identitet (`git config user.name` och `user.email`). Använd gärna GitHubs noreply-adress som e-post, så att er privata adress inte syns. Skriv inte om historiken (inga force-push eller squash på `main`). Läraren läser bidrag ur git-historiken.
 
 **Er fork kan vara publik.** Lägg aldrig hemligheter eller personuppgifter i repot.
@@ -117,9 +119,12 @@ Vid första start skapar programmet databasen och lägger in exempeldata, om dat
 
 ## UML-klassdiagram
 
+<!-- Ersätt klassen Ersatt med era egna klasser och relationer. Mermaid behöver minst en klass för att rendera. -->
 ```mermaid
 classDiagram
-    %% Ersätt med ert eget klassdiagram
+    class Ersatt {
+        +Egenskap
+    }
 ```
 
 Kort förklaring: [vad är klass, vad är relation, varför ser det ut så här?]
