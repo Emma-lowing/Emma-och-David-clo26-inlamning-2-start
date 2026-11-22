@@ -19,6 +19,8 @@ Det här repot innehåller tolv projektmallar: fyra projekt (Hushållsbudget, Tr
 
 **Reflektionen** skriver ni var för sig, i en egen fil som heter `<förnamn>-reflektion.md` (till exempel `marcus-reflektion.md`), och lämnar in den privat på Classroom. Namn, grupp och projekt står överst i filen. Den ligger inte i repot.
 
+**AI-stöd.** Kodkontrollen är en prompt som ni kör mot er egen kod: [KODKONTROLL_PROMPT.md](KODKONTROLL_PROMPT.md). Att köra den räknas som AI-stöd, och ska deklareras i README:n.
+
 **Testning och granskning** loggas i `peer_review_log.md`. Allt som krånglar, glitchar eller buggar loggas där, med hur det lösts.
 
 **README:n skriver ni själva.** Mallen är ett skelett. AI får användas, men det ska deklareras. Att köra kodkontrollen räknas också som AI-stöd.
