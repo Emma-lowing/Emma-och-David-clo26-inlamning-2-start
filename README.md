@@ -10,7 +10,7 @@ Det här repot innehåller tolv projektmallar: fyra projekt (Hushållsbudget, Tr
 
 1. **Forka repot.** Klicka på **Fork** uppe till höger på repots GitHub-sida, och välj ert eget konto. **Reponamnet måste innehålla ert förnamn och första bokstaven i efternamnet**, till exempel `marcus-m-clo26-inlamning-2-start`. Det gör att två studenter med samma förnamn kan skilja sig åt. Ändra namnet i fork-dialogen eller under **Settings** innan ni klonar.
 2. **Klona er fork** (inte originalrepot): `git clone https://github.com/<ert-användarnamn>/<repo-namn>.git`. Välj sedan ett projekt och ett gränssnitt, och radera de elva andra mapparna och deras rader i `Projekt.slnx`. Kör `dotnet build Projekt.slnx`. Finns det kvar rader för borttagna mappar går bygget sönder. Committa och pusha ändringarna till **er fork**.
-3. **Bjud in `marcusjobb`** som medarbetare: **Settings → Collaborators → Add people**.
+3. **Bjud in dina gruppkollegor och `marcusjobb`** som medarbetare: **Settings → Collaborators → Add people**.
 4. **Sätt upp en kanban** i Trello eller GitHub Projects. Bjud in `marcusjobb` så att läraren ser den.
 5. **Fyll i `GRUPP.md`**: gruppnamn, medlemmar, valt projekt, valt databas, kanban-länk och era gruppregler.
 6. **Bygg och kör:** `dotnet build`, sedan `dotnet run --project <ert projekt>`.
