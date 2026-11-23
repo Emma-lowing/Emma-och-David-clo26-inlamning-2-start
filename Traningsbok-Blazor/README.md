@@ -1,6 +1,6 @@
 # Traningsbok, blazor
 
-Blazor Web App. Ni skriver modeller i `Models/`, tjänster i `Services/`, databas i `Data/`, och komponenter i `Components/`.
+Blazor (Interactive Server). **Gränssnittet är färdigt:** sidor och formulär. Ni bygger det som ligger bakom: databas, repository och logik. Se avsnittet [Så är koden uppbyggd](#så-är-koden-uppbyggd).
 
 ## Så kör du
 
@@ -44,3 +44,46 @@ En utövare registrerar pass och övningar, ser veckoöversikt och får ett medd
 - `Utovare`: `Id`, `Fornamn`, `Efternamn`, `Fodelsedatum`, `HairColor`, `HeightCm`, `Religion`
 
 Lägg till: träningstyper, veckomål per träningstyp, och det som beställaren vill ha.
+
+---
+
+## Så är koden uppbyggd
+
+Programmet går att köra direkt, utan databas. Sidorna är färdiga och ska inte behöva ändras, förutom där en kommentar säger det.
+
+| Mapp | Innehåll | Vad ni gör |
+|------|----------|------------|
+| `Components/Pages/` | Sidor och formulär. Pratar bara med interface i `Services/`. | Lägger till fält i formulären när ni bygger ut modellerna. |
+| `Components/` (`PageBase`, `InputParser`, `Shared/`) | Gör om fel till meddelanden, bland annat "Inte implementerat ännu", och tolkar inmatning. | Inget. |
+| `Models/` | Minimala modeller, bara det som README:n kräver. | Bygger ut med fälten beställningen kräver, och tar bort de som inte behövs. |
+| `Services/` | Interface och klasser som sidorna anropar. | Bygger allt som kastar `NotImplementedException`. |
+| `Data/` | Tom. | Er databaskoppling. |
+
+### Vad fungerar redan?
+
+- **Pass, övningar och utövare** (lista, lägga till, visa, ta bort pass, lägga till övning) fungerar mot `InMemoryWorkoutRepository`. Den är en låtsasdatabas: data ligger i listor och försvinner när programmet stängs.
+- **Träningstyper, veckoöversikt och statistik för en övning** visar demodata från `TrainingTypeService` och `StatisticsService`: hårdkodade värden som inte sparas och inte räknas fram. Allt som ändrar något (lägga till eller ta bort träningstyp, sätta veckomål) kastar `NotImplementedException`, och då visas *"Inte implementerat ännu"*.
+- **Meddelanden vid veckomålet** (80 % och 100 %): passet sparas, men `GoalNotifier` kastar `NotImplementedException`, så efter varje nytt pass visas en varning om att det inte är implementerat ännu.
+- **Demodatan visar hur sidorna ska se ut** när ni är klara, men den är hårdkodad. Ersätt allt som är märkt `DEMO` med riktig logik.
+- **Två saker är fel med flit:** vikt visas som `62,50 kg` i stället för `62,5 kg`, och träningstid som `65 min` i stället för `1 h 05 min` (önskemål 1). Båda rättas i `WorkoutFormatter`.
+
+Sök efter `Du behöver bygga ut detta mer` i koden för att hitta alla ställen ni ska bygga vidare på.
+
+### Byt låtsasdatabasen mot en riktig
+
+1. Skriv en klass, till exempel `MongoWorkoutRepository` eller `EfWorkoutRepository`, som implementerar `IWorkoutRepository`.
+2. Låt den skapa databasen och seeda exempeldata vid första start, om den är tom.
+3. Byt registreringen av `InMemoryWorkoutRepository` i `Program.cs` mot er klass.
+4. Ta bort `InMemoryWorkoutRepository.cs` när ni inte behöver den längre.
+
+Felaktig inmatning som upptäcks i era services: kasta `ArgumentException` med ett meddelande på svenska. Sidan visar meddelandet i stället för att krascha.
+
+### Svenska namn i README, engelska i koden
+
+| README | Koden |
+|--------|-------|
+| `Pass` (`Datum`, `Typ`) | `Workout` (`Date`, `Type`) |
+| `Ovning` (`Namn`, `Set`, `Reps`, `Vikt`) | `Exercise` (`Name`, `Sets`, `Reps`, `Weight`) |
+| `Utovare` (`Fornamn`, `Efternamn`, `Fodelsedatum`, `HairColor`, `HeightCm`, `Religion`) | `Athlete` (`FirstName`, `LastName`, `BirthDate`, `HairColor`, `HeightCm`, `Religion`) |
+| träningstyp | `TrainingType` |
+| veckoöversikt | `WeekOverview` |
