@@ -16,6 +16,8 @@ string? connectionString = builder.Configuration["DB_CONNECTION"];
 // Byt den här raden när ni har en riktig databas, till exempel:
 //   builder.Services.AddSingleton<IRecipeRepository>(new MongoRecipeRepository(connectionString));
 // Er databasklass ska skapa databasen och seeda exempeldata vid första start, om den är tom.
+// Här passar till exempel mönstret Factory: en klass som väljer och skapar rätt repository
+// utifrån konfigurationen, så att Program.cs inte behöver känna till varje databasklass.
 // Låtsasdatabasen är Singleton så att listorna lever kvar mellan sidvisningarna.
 builder.Services.AddSingleton<IRecipeRepository, InMemoryRecipeRepository>();
 

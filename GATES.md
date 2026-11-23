@@ -33,6 +33,7 @@ Gå igenom listan innan ni laddar ner zippen. Alla punkter ska vara ✅.
 ## Kodkvalitet (G)
 
 - [ ] Klasser med tydliga ansvar (SRP). Gränssnitt, databas och affärslogik är åtskilda (SoC).
+- [ ] Repository, designmönster och interface som ni pekar ut finns i er egen kod. Startkoden (gränssnittet, `InMemory…Repository` och de interface som fanns från början) räknas inte.
 - [ ] Samma regel finns på ett enda ställe (DRY).
 - [ ] Namn säger vad saker är. Inga kommentarer som bara upprepar koden.
 - [ ] Namn på klasser, metoder, variabler och tabeller är på engelska. Utskrifter och kommentarer är på svenska.

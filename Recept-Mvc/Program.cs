@@ -13,6 +13,8 @@ string? connectionString = builder.Configuration["DB_CONNECTION"];
 // Byt den här raden när ni har en riktig databas, till exempel:
 //   builder.Services.AddSingleton<IRecipeRepository>(new MongoRecipeRepository(connectionString));
 // Er databasklass ska skapa databasen och seeda exempeldata vid första start, om den är tom.
+// Här passar till exempel mönstret Factory: en klass som väljer och skapar rätt repository
+// utifrån konfigurationen, så att Program.cs inte behöver känna till varje databasklass.
 // Låtsasdatabasen är Singleton så att listorna lever kvar mellan sidvisningarna.
 builder.Services.AddSingleton<IRecipeRepository, InMemoryRecipeRepository>();
 
@@ -24,6 +26,12 @@ builder.Services.AddSingleton<IRecipeCalculator, RecipeCalculator>();
 builder.Services.AddControllersWithViews(options =>
 {
     SwedishValidationMessages.Apply(options.ModelBindingMessageProvider);
+
+    // Både "2,5" och "2.5" godkänns i formulären.
+    options.ModelBinderProviders.Insert(0, new FlexibleDecimalModelBinderProvider());
+
+    // Svenska fältnamn i felmeddelanden, till exempel "Längd i cm" i stället för "HeightCm".
+    options.ModelMetadataDetailsProviders.Add(new SwedishDisplayNames());
 
     // Annars blir alla string-fält i modellerna obligatoriska, med engelska felmeddelanden.
     // Vilka fält som är obligatoriska bestäms i stället i controllern eller i era services.
