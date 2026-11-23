@@ -24,7 +24,7 @@ Läraren kör er kod mot sin egen Docker-server och sätter connectionstringen s
 ---
 
 
-En liten tabell och matchregistrering för ett seriespel, till exempel fotboll.
+En korpserie registrerar lag, spelare och matcher, ser tabellen för en säsong och får varning när ett lag närmar sig truppgränsen. Beställningen finns i uppgiftsdokumentet `bestallning_sportstatistik.md`.
 
 ## Minsta menyval (måste finnas)
 
@@ -43,4 +43,4 @@ En liten tabell och matchregistrering för ett seriespel, till exempel fotboll.
 - `Match`: `Id`, `Hemmalag`, `Bortalag`, `MalHemma`, `MalBorta`
 - `Spelare`: `Id`, `Position`, `Fornamn`, `Efternamn`, `Fodelsedatum`, `HairColor`, `HeightCm`, `Religion` (hör till ett lag)
 
-Lägg till: säsong, spelare, och en tabell som ni själva sorterar och motiverar.
+Lägg till: säsong, positioner, truppgräns per lag, och det som beställaren vill ha.

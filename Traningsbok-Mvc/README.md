@@ -24,7 +24,7 @@ Läraren kör er kod mot sin egen Docker-server och sätter connectionstringen s
 ---
 
 
-En träningslogg där man registrerar pass, övningar och vikter, och ser utvecklingen över tid.
+En utövare registrerar pass och övningar, ser veckoöversikt och får ett meddelande när ett veckomål närmar sig eller är nått. Beställningen finns i uppgiftsdokumentet `bestallning_traningsbok.md`.
 
 ## Minsta menyval (måste finnas)
 
@@ -43,4 +43,4 @@ En träningslogg där man registrerar pass, övningar och vikter, och ser utveck
 - `Ovning`: `Id`, `Namn`, `Set`, `Reps`, `Vikt`
 - `Utovare`: `Id`, `Fornamn`, `Efternamn`, `Fodelsedatum`, `HairColor`, `HeightCm`, `Religion`
 
-Lägg till: fler egenskaper, och en statistik som ni själva väljer och motiverar.
+Lägg till: träningstyper, veckomål per träningstyp, och det som beställaren vill ha.

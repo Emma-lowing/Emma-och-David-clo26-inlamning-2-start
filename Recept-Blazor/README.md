@@ -24,7 +24,7 @@ Läraren kör er kod mot sin egen Docker-server och sätter connectionstringen s
 ---
 
 
-Recept med ingredienser, och en veckoplan som kopplar recepten till dagar.
+Ett hushåll sparar recept med ingredienser, planerar veckans måltider, får en inköpslista och får varning när en kategori används för ofta. Beställningen finns i uppgiftsdokumentet `bestallning_recept.md`.
 
 ## Minsta menyval (måste finnas)
 
@@ -44,4 +44,4 @@ Recept med ingredienser, och en veckoplan som kopplar recepten till dagar.
 - `Ingrediens`: `Namn`, `Mangd`, `Enhet`
 - `Kock`: `Id`, `Fornamn`, `Efternamn`, `Fodelsedatum`, `HairColor`, `HeightCm`, `Religion` (den som skapat receptet)
 
-Lägg till: veckoplan, och en inköpslista som ni själva beräknar utifrån valda recept.
+Lägg till: kategorier, veckoplan, inköpslista, gräns per kategori, och det som beställaren vill ha.
