@@ -4,18 +4,22 @@
 
 ## Grupp
 
-- **Gruppnamn:**
-- **Projekt:** (Hushållsbudget, Träningsbok, Sportstatistik eller Recept)
-- **Databas:** (SQLite, MySQL, SQL Server, PostgreSQL, MongoDB eller minnesdatabas, och kort varför)
-- **Databastyp i Inlämning 1 (fil eller server, för varje person):** (måste skilja sig från er databastyp nu)
-- **Gränssnitt:** (konsol, Blazor eller MVC)
+- **Gruppnamn:** [Fyll i gruppnamn]
+- **Projekt:** Träningsbok
+- **Databas:** MongoDB med MongoDB.Driver. Vi har valt MongoDB eftersom vi båda tidigare har arbetat med SQLite och nu vill lära oss att använda en serverbaserad dokumentdatabas. MongoDB passar även projektet eftersom övningar kan lagras direkt i träningspassens dokument.
+- **Databastyp i Inlämning 1 (fil eller server, för varje person):**
+  - Emma Löwing: Fildatabas (SQLite med Entity Framework Core).
+  - David Sundkvist: Fildatabas (SQLite med Entity Framework Core).
+- **Gränssnitt:** Konsol
 
 ## Medlemmar
 
 | Namn | Roll i gruppen | Ansvar i koden (vilka klasser/delar) |
 | ---- | -------------- | ------------------------------------ |
-|      |                |                                      |
-|      |                |                                      |
+| Emma Löwing | Databas och träningsregistrering | Databasanslutning, MongoDB Repository, automatisk databasinitiering, seed, hantering av utövare och träningstyper samt registrering, visning och borttagning av träningspass och tillhörande övningar. |
+| David Sundkvist | Statistik, träningsmål och användargränssnitt | Konsolmenyer, navigering, veckoöversikt, veckoberäkningar, övningsstatistik, veckomål, målmeddelanden samt gemensamma metoder för formatering och validering. |
+
+Båda ansvarar gemensamt för datamodellen, UML-diagrammet, arkitekturen, val av designmönster, integration, testning, refactoring, kodgranskning och dokumentation.# Gruppen
 
 ## Vem gjorde vad
 
