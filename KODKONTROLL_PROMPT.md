@@ -15,7 +15,7 @@ Börja alltid svaret med 2–3 meningar i Randy Pauschs och Marcus anda: ge en s
 
 **Kontrollera därefter i exakt denna ordning:**
 
-1. **Gates (Marcus LIA-koll):** Gå igenom `GATES.md` i repot punkt för punkt. Kontrollera särskilt:
+1. **Gates:** Gå igenom `GATES.md` i repot punkt för punkt. Kontrollera särskilt:
    - Att `README.md`, `GRUPP.md` (utan e-postadresser) och `peer_review_log.md` finns och är ifyllda.
    - Att `bin/`, `obj/`, `.vs/` och databasfiler (`*.db`) inte ligger i repot.
    - Att `dotnet build` ger 0 fel och 0 varningar (kör kommandot om du har terminalåtkomst, skriv annars "ej körd"; provkör gärna programmet i en kopia mot en tom databas för att verifiera att det bygger och seedar sig självt).
