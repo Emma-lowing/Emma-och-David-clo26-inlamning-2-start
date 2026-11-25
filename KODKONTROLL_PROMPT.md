@@ -68,7 +68,8 @@ Börja alltid svaret med 2–3 meningar i Randy Pauschs och Marcus anda: ge en s
 **UPPGIFT OCH BESTÄLLNING (klistra in här):**
 
 [klistra in `inlamning_2_grupparbete.md`, Del 1 till Del 3, här]
-```
 [klistra in `bestallning_hushallsbudget.md`, Kravspec och G-krav, här]
 
-``
+```
+
+
