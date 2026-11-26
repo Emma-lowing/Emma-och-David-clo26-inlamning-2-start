@@ -11,6 +11,6 @@ public class Exercise
     public int Reps { get; set; }
     public decimal Weight { get; set; }
 
-    // Du behöver bygga ut detta mer.
-    // Väljer ni en relationsdatabas behöver övningen troligen en koppling till sitt pass.
+    // WorkoutId behövs inte eftersom övningarna
+    // lagras som inbäddade dokument i Workout.
 }

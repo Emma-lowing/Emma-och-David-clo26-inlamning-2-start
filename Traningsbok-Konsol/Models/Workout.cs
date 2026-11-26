@@ -1,3 +1,5 @@
+using Microsoft.VisualBasic;
+
 namespace Traningsbok.Models;
 
 /// <summary>
@@ -7,8 +9,13 @@ public class Workout
 {
     public int Id { get; set; }
     public DateOnly Date { get; set; }
-    public string Type { get; set; } = "";
+    public int TrainingTypeId { get; set; }
     public List<Exercise> Exercises { get; set; } = new();
+    public int TimeInMinutes { get; set; }
+    public string? Note { get; set; }
+    public int AthleteId { get; set; }
+
+
 
     // Du behöver bygga ut detta mer.
     // Beställningen kräver längd i minuter, en valfri anteckning och vilken utövare passet tillhör.
