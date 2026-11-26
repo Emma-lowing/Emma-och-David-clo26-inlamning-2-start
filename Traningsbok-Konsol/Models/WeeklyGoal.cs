@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Traningsbok.Models
 {
-    internal class WeeklyGoal
+    public class WeeklyGoal
     {
         public int Id { get; set; }
         public int AthleteId { get; set; }

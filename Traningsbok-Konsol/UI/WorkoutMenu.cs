@@ -10,56 +10,77 @@ namespace Traningsbok.UI;
 /// </summary>
 public class WorkoutMenu
 {
+    private readonly AthleteSession _session;
     private readonly IWorkoutRepository _repository;
     private readonly ITrainingTypeService _trainingTypes;
     private readonly IGoalNotifier _goals;
     private readonly IWorkoutFormatter _formatter;
 
-    public WorkoutMenu(IWorkoutRepository repository, ITrainingTypeService trainingTypes,
-        IGoalNotifier goals, IWorkoutFormatter formatter)
+    public WorkoutMenu(IWorkoutRepository repository,
+     ITrainingTypeService trainingTypes,
+     IGoalNotifier goals,
+     IWorkoutFormatter formatter,
+     AthleteSession session)
     {
         _repository = repository;
         _trainingTypes = trainingTypes;
         _goals = goals;
         _formatter = formatter;
+        _session = session;
     }
 
     public void ListWorkouts()
     {
-        List<Workout> workouts = _repository.GetAllWorkouts();
+        int athleteId = _session.RequireActiveAthlete();
+
+        List<Workout> workouts = _repository.GetAllWorkouts()
+            .Where(w => w.AthleteId == athleteId)
+            .ToList();
         if (workouts.Count == 0)
         {
             Console.WriteLine("Det finns inga pass än.");
             return;
         }
 
-        foreach (Workout workout in workouts)
-        {
-            // Du behöver bygga ut detta mer: visa längd och utövare när modellen Workout har dem.
-            Console.WriteLine($"{workout.Id}. {workout.Date:yyyy-MM-dd} {workout.Type} ({workout.Exercises.Count} övningar)");
+        foreach(Workout workout in workouts)
+{
+            string typeName = _repository
+                .GetTrainingType(workout.TrainingTypeId)?.Name
+                ?? "Okänd träningstyp";
+
+            Console.WriteLine($"{workout.Id}. {workout.Date:yyyy-MM-dd} {typeName} ({workout.Exercises.Count} övningar)");
         }
     }
 
     public void AddWorkout()
     {
-        string typeNames = string.Join(", ", _trainingTypes.GetAll().Select(t => t.Name));
-        Console.WriteLine($"Träningstyper: {typeNames}");
+        int athleteId = _session.RequireActiveAthlete();
+
+        foreach (TrainingType type in _repository.GetAllTrainingTypes())
+        {
+            Console.WriteLine($"{type.Id}. {type.Name}");
+        }
+
+        int typeId = ConsoleInput.ReadInt("Träningstypens nummer", min: 1);
+
+        if (_repository.GetTrainingType(typeId) is null)
+        {
+            throw new ArgumentException("Träningstypen finns inte.");
+        }
 
         var workout = new Workout
         {
+            AthleteId = athleteId,
+            TrainingTypeId = typeId,
             Date = ConsoleInput.ReadDate("Datum"),
-            // Tom träningstyp ger ett meddelande och en ny fråga.
-            // Du behöver bygga ut detta mer: kontrollera att träningstypen finns.
-            Type = ConsoleInput.ReadRequiredText("Träningstyp"),
+            TimeInMinutes = ConsoleInput.ReadInt("Längd i minuter", min: 1),
+            Note = ConsoleInput.ReadText("Anteckning (valfritt)")
         };
 
-        // Du behöver bygga ut detta mer: fråga efter längd i minuter, anteckning och utövare
-        // när modellen Workout har de fälten.
-
         _repository.AddWorkout(workout);
+
         Console.WriteLine($"Passet den {workout.Date:yyyy-MM-dd} är sparat.");
 
-        // Funktion 6: meddelande när träningstypen når 80 % eller 100 % av veckomålet.
         foreach (string message in _goals.CheckGoals(workout))
         {
             ConsoleInput.WriteWarning(message);
@@ -97,7 +118,11 @@ public class WorkoutMenu
         }
 
         Console.WriteLine();
-        Console.WriteLine($"{workout.Type}, {workout.Date:dddd d MMMM yyyy}");
+        string typeName = _repository
+     .GetTrainingType(workout.TrainingTypeId)?.Name
+     ?? "Okänd träningstyp";
+
+        Console.WriteLine($"{typeName}, {workout.Date:dddd d MMMM yyyy}");
         if (workout.Exercises.Count == 0)
         {
             Console.WriteLine("  Inga övningar.");
@@ -139,18 +164,14 @@ public class WorkoutMenu
 
     public void AddAthlete()
     {
-        // Fälten följer modellen Athlete. Tar ni bort ett fält ur modellen, ta bort raden här också.
         var athlete = new Athlete
         {
             FirstName = ConsoleInput.ReadRequiredText("Förnamn"),
-            LastName = ConsoleInput.ReadText("Efternamn"),
-            BirthDate = ConsoleInput.ReadDate("Födelsedatum"),
-            HairColor = ConsoleInput.ReadText("Hårfärg"),
-            HeightCm = ConsoleInput.ReadInt("Längd i cm", min: 0, max: 300),
-            Religion = ConsoleInput.ReadText("Religion"),
+            LastName = ConsoleInput.ReadText("Efternamn")
         };
 
         _repository.AddAthlete(athlete);
+
         Console.WriteLine($"Utövaren {athlete.FirstName} är tillagd.");
     }
 
@@ -160,9 +181,11 @@ public class WorkoutMenu
         int id = ConsoleInput.ReadInt("Passets nummer", min: 1);
         Workout? workout = _repository.GetWorkout(id);
 
-        if (workout is null)
+        if (workout is null ||
+    workout.AthleteId != _session.RequireActiveAthlete())
         {
-            ConsoleInput.WriteWarning($"Det finns inget pass med nummer {id}.");
+            ConsoleInput.WriteWarning("Passet finns inte för den aktiva utövaren.");
+            return null;
         }
         return workout;
     }

@@ -8,6 +8,12 @@ namespace Traningsbok.Services;
 /// </summary>
 public class GoalNotifier : IGoalNotifier
 {
+    private readonly IWorkoutRepository _repository;
+
+    public GoalNotifier(IWorkoutRepository repository)
+    {
+        _repository = repository;
+    }
     // Du behöver bygga ut detta mer: räkna ihop veckans minuter för passets träningstyp,
     // och returnera ett meddelande vid 80 % och ett annat vid 100 % av veckomålet.
     // Samma 80 %-meddelande får inte visas igen förrän veckan byts (önskemål 4).

@@ -8,11 +8,14 @@ namespace Traningsbok.UI;
 /// </summary>
 public class TrainingTypeMenu
 {
+    private readonly AthleteSession _session;
     private readonly ITrainingTypeService _trainingTypes;
 
-    public TrainingTypeMenu(ITrainingTypeService trainingTypes)
+    public TrainingTypeMenu(ITrainingTypeService trainingTypes,
+     AthleteSession session)
     {
         _trainingTypes = trainingTypes;
+        _session = session;
     }
 
     public void Run()
@@ -64,7 +67,8 @@ public class TrainingTypeMenu
         // En vecka har 10 080 minuter.
         int minutes = ConsoleInput.ReadInt("Veckomål i minuter", min: 1, max: 10080);
 
-        _trainingTypes.SetWeeklyGoal(id, minutes);
+        _trainingTypes.SetWeeklyGoal(
+    _session.RequireActiveAthlete(), id, minutes);
         Console.WriteLine("Veckomålet är sparat.");
     }
 }

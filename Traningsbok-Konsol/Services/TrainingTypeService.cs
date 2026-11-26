@@ -8,23 +8,23 @@ namespace Traningsbok.Services;
 /// </summary>
 public class TrainingTypeService : ITrainingTypeService
 {
+    private readonly IWorkoutRepository _repository;
+
+    public TrainingTypeService(IWorkoutRepository repository)
+    {
+        _repository = repository;
+    }
     // DEMO: en fast lista som inte sparas någonstans. Ersätt med träningstyper från databasen.
     // Standardlistan ska alltid finnas: Styrka, Kondition, Rörlighet, Bollsport och Övrigt.
     // "Klättring" visar hur en egen träningstyp ser ut i listan.
-    public List<TrainingType> GetAll() =>
-    [
-        new TrainingType { Id = 1, Name = "Styrka" },
-        new TrainingType { Id = 2, Name = "Kondition" },
-        new TrainingType { Id = 3, Name = "Rörlighet" },
-        new TrainingType { Id = 4, Name = "Bollsport" },
-        new TrainingType { Id = 5, Name = "Övrigt" },
-        new TrainingType { Id = 6, Name = "Klättring" },
-    ];
+    public List<TrainingType> GetAll()
+     => _repository.GetAllTrainingTypes();
 
     // Tom träningstyp ska ge ett tydligt felmeddelande. Kasta ArgumentException, så visar menyn texten.
     public void Add(string name) => throw new NotImplementedException();
 
     public void Delete(int trainingTypeId) => throw new NotImplementedException();
 
-    public void SetWeeklyGoal(int trainingTypeId, int minutes) => throw new NotImplementedException();
+    public void SetWeeklyGoal(int athleteId, int trainingTypeId, int minutes)
+    => throw new NotImplementedException();
 }

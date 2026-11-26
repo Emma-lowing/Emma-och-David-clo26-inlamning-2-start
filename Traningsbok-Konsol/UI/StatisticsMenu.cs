@@ -8,19 +8,24 @@ namespace Traningsbok.UI;
 /// </summary>
 public class StatisticsMenu
 {
+    private readonly AthleteSession _session;
     private readonly IStatisticsService _statistics;
     private readonly IWorkoutFormatter _formatter;
 
-    public StatisticsMenu(IStatisticsService statistics, IWorkoutFormatter formatter)
+    public StatisticsMenu(IStatisticsService statistics,
+     IWorkoutFormatter formatter,
+     AthleteSession session)
     {
         _statistics = statistics;
         _formatter = formatter;
+        _session = session;
     }
 
     public void ShowExerciseStats()
     {
         string name = ConsoleInput.ReadRequiredText("Övning");
-        ExerciseStats stats = _statistics.GetExerciseStats(name);
+        ExerciseStats stats = _statistics.GetExerciseStats(
+       _session.RequireActiveAthlete(), name);
 
         Console.WriteLine();
         Console.WriteLine(stats.ExerciseName);
@@ -32,7 +37,8 @@ public class StatisticsMenu
     {
         int year = ConsoleInput.ReadInt("År", min: 2000, max: 2100);
         int week = ConsoleInput.ReadInt("Veckonummer", min: 1, max: 53);
-        WeekOverview overview = _statistics.GetWeekOverview(year, week);
+        WeekOverview overview = _statistics.GetWeekOverview(
+       _session.RequireActiveAthlete(), year, week);
 
         Console.WriteLine();
         Console.WriteLine($"Vecka {overview.Week}, {overview.Year} (måndag till söndag)");

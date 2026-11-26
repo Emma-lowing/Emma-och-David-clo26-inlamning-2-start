@@ -24,16 +24,20 @@ string? connectionString = config["DB_CONNECTION"];
 // Här passar till exempel mönstret Factory: en klass som väljer och skapar rätt repository
 // utifrån konfigurationen, så att Program.cs inte behöver känna till varje databasklass.
 IWorkoutRepository repository = new InMemoryWorkoutRepository();
+var athleteSession = new AthleteSession();
+var athleteSelector = new AthleteSelector(repository, athleteSession);
 
 // De här fyra ska ni bygga. Tills dess visar menyn demodata eller "Inte implementerat ännu".
-ITrainingTypeService trainingTypes = new TrainingTypeService();
-IGoalNotifier goals = new GoalNotifier();
-IStatisticsService statistics = new StatisticsService();
+ITrainingTypeService trainingTypes = new TrainingTypeService(repository);
+IGoalNotifier goals = new GoalNotifier(repository);
+IStatisticsService statistics = new StatisticsService(repository);
 IWorkoutFormatter formatter = new WorkoutFormatter();
 
-var workoutMenu = new WorkoutMenu(repository, trainingTypes, goals, formatter);
-var trainingTypeMenu = new TrainingTypeMenu(trainingTypes);
-var statisticsMenu = new StatisticsMenu(statistics, formatter);
+var workoutMenu = new WorkoutMenu(repository, trainingTypes, goals, formatter, athleteSession);
+
+var trainingTypeMenu = new TrainingTypeMenu(trainingTypes, athleteSession);
+
+var statisticsMenu = new StatisticsMenu(statistics, formatter, athleteSession);
 
 Console.WriteLine("Välkommen till Träningsbok!");
 
@@ -48,6 +52,7 @@ new Menu("Träningsbok", exitLabel: "Avsluta")
     .Add("8", "Ta bort pass", workoutMenu.DeleteWorkout)
     .Add("9", "Träningstyper och veckomål", trainingTypeMenu.Run)
     .Add("10", "Veckoöversikt", statisticsMenu.ShowWeekOverview)
+    .Add("11", "Byt aktiv utövare", athleteSelector.SelectAthlete)
     .Run();
 
 Console.WriteLine("Hej då!");
