@@ -119,14 +119,89 @@ Vid första start skapar programmet databasen och lägger in exempeldata, om dat
 - **Databas:** [SQLite / MySQL / SQL Server / PostgreSQL / MongoDB / minnesdatabas]
 - **App:** [kort beskrivning]
 
-## UML-klassdiagram
+## UML-diagram
 
-<!-- Ersätt klassen Ersatt med era egna klasser och relationer. Mermaid behöver minst en klass för att rendera. -->
 ```mermaid
 classDiagram
-    class Ersatt {
-        +Egenskap
+    direction TB
+
+    class Athlete {
+        +int Id
+        +string FirstName
+        +string LastName
     }
+
+    class Workout {
+        +int Id
+        +DateOnly Date
+        +int TrainingTypeId
+        +List~Exercise~ Exercises
+        +int TimeInMinutes
+        +string? Note
+        +int AthleteId
+    }
+
+    class Exercise {
+        +int Id
+        +string Name
+        +int Sets
+        +int Reps
+        +decimal Weight
+    }
+
+    class TrainingType {
+        +int Id
+        +string Name
+        +bool IsProtected
+    }
+
+    class WeeklyGoal {
+        +int Id
+        +int AthleteId
+        +int TrainingTypeId
+        +int TargetMinutes
+    }
+
+    class GoalNotification {
+        +int Id
+        +int WeeklyGoalId
+        +int Year
+        +int Week
+        +int ThresholdPercentage
+    }
+
+    class WeekOverview {
+        +int Year
+        +int Week
+        +int WorkoutCount
+        +int TotalMinutes
+        +List~TrainingTypeMinutes~ MinutesPerType
+    }
+
+    class TrainingTypeMinutes {
+        +string TrainingTypeName
+        +int Minutes
+        +int? GoalMinutes
+    }
+
+    class ExerciseStats {
+        +string ExerciseName
+        +decimal MaxWeight
+        +int TotalSets
+    }
+
+    Athlete "1" -- "0..*" Workout
+    TrainingType "1" -- "0..*" Workout
+    Workout "1" *-- "0..*" Exercise
+    Athlete "1" -- "0..*" WeeklyGoal
+    TrainingType "1" -- "0..*" WeeklyGoal
+    WeeklyGoal "1" -- "0..*" GoalNotification
+    WeekOverview "1" *-- "0..*" TrainingTypeMinutes
+
+    WeekOverview ..> Workout : beräknas från
+    WeekOverview ..> WeeklyGoal : använder
+    TrainingTypeMinutes ..> TrainingType : använder
+    ExerciseStats ..> Exercise : beräknas från
 ```
 
 Kort förklaring: [vad är klass, vad är relation, varför ser det ut så här?]
