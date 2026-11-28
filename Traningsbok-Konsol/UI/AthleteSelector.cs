@@ -14,7 +14,16 @@ public class AthleteSelector
         _repository = repository;
         _session = session;
     }
+    public string GetActiveAthleteText()
+    {
+        var athlete = _session.ActiveAthleteId is int id
+            ? _repository.GetAthlete(id)
+            : null;
 
+        return athlete is not null
+            ? $"Aktiv utövare: {athlete.FirstName}"
+            : "Aktiv utövare: Ingen vald";
+    }
     public void SelectAthlete()
     {
         List<Athlete> athletes = _repository.GetAllAthletes();

@@ -41,7 +41,8 @@ var statisticsMenu = new StatisticsMenu(statistics, formatter, athleteSession);
 
 Console.WriteLine("Välkommen till Träningsbok!");
 
-new Menu("Träningsbok", exitLabel: "Avsluta")
+new Menu("Träningsbok", exitLabel: "Avsluta",
+    statusText: athleteSelector.GetActiveAthleteText)
     .Add("1", "Lista pass", workoutMenu.ListWorkouts)
     .Add("2", "Lägg till pass", workoutMenu.AddWorkout)
     .Add("3", "Lägg till övning till ett pass", workoutMenu.AddExercise)

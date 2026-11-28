@@ -20,7 +20,7 @@ public class TrainingTypeMenu
 
     public void Run()
     {
-        new Menu("Träningstyper")
+        new Menu("Träningstyper och veckomål")
             .Add("1", "Lista träningstyper", ListTrainingTypes)
             .Add("2", "Lägg till träningstyp", AddTrainingType)
             .Add("3", "Ta bort träningstyp", DeleteTrainingType)
@@ -62,13 +62,20 @@ public class TrainingTypeMenu
 
     private void SetWeeklyGoal()
     {
-        ListTrainingTypes();
-        int id = ConsoleInput.ReadInt("Träningstypens nummer", min: 1);
-        // En vecka har 10 080 minuter.
-        int minutes = ConsoleInput.ReadInt("Veckomål i minuter", min: 1, max: 10080);
+        Console.WriteLine("\n=== Sätt veckomål ===");
 
-        _trainingTypes.SetWeeklyGoal(
-    _session.RequireActiveAthlete(), id, minutes);
+        int athleteId = _session.RequireActiveAthlete();
+
+        ListTrainingTypes();
+
+        int id = ConsoleInput.ReadInt("Träningstypens nummer", min: 1);
+
+        // En vecka har 10 080 min
+        int minutes = ConsoleInput.ReadInt(
+            "Veckomål i minuter", min: 1, max: 10080);
+
+        _trainingTypes.SetWeeklyGoal(athleteId, id, minutes);
+
         Console.WriteLine("Veckomålet är sparat.");
     }
 }

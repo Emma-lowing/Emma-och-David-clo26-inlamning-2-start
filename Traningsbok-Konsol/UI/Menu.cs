@@ -8,14 +8,17 @@ public class Menu
 {
     private readonly string _title;
     private readonly string _exitLabel;
+    private readonly Func<string>? _statusText;
+
     private readonly List<(string Key, string Label, Action Action)> _items = new();
 
-    public Menu(string title, string exitLabel = "Tillbaka")
+    public Menu(string title, string exitLabel = "Tillbaka",
+    Func<string>? statusText = null)
     {
         _title = title;
         _exitLabel = exitLabel;
+        _statusText = statusText;
     }
-
     public Menu Add(string key, string label, Action action)
     {
         _items.Add((key, label, action));
@@ -34,6 +37,11 @@ public class Menu
                 Console.WriteLine($"{item.Key}. {item.Label}");
             }
             Console.WriteLine($"0. {_exitLabel}");
+            
+            if (_statusText is not null)
+            {
+                Console.WriteLine(_statusText());
+            }
 
             string choice = ConsoleInput.ReadText("Val");
             if (choice == "0")
