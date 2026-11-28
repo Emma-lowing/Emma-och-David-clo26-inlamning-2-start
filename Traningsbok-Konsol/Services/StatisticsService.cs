@@ -1,3 +1,5 @@
+using System.Globalization;
+using Traningsbok.Extensions;
 using Traningsbok.Models;
 
 namespace Traningsbok.Services;
@@ -13,25 +15,51 @@ public class StatisticsService : IStatisticsService
     {
         _repository = repository;
     }
-    // DEMO: samma påhittade siffror varje vecka. Ersätt med en översikt som räknas fram ur veckans pass.
-    // ISOWeek räknar veckonummer med måndag som första dag (önskemål 2):
-    // ett pass söndag 15 november 2026 hör till vecka 46, inte vecka 47.
-    public WeekOverview GetWeekOverview(int athleteId, int year, int weekNumber) => new()
+    // ISOWeek används för att hantera veckor och årsskiften korrekt.
+    // Veckan räknas från måndag till söndag.
+    public WeekOverview GetWeekOverview(int athleteId, int year, int weekNumber)
     {
-        Year = year,
-        Week = weekNumber,
-        WorkoutCount = 4,
-        TotalMinutes = 166,
-        MinutesPerType =
-        [
-            new TrainingTypeMinutes { TrainingTypeName = "Styrka", Minutes = 65, GoalMinutes = 120 },
-            new TrainingTypeMinutes { TrainingTypeName = "Kondition", Minutes = 81, GoalMinutes = 100 },
-            new TrainingTypeMinutes { TrainingTypeName = "Rörlighet", Minutes = 20 },
-        ],
-    };
+        if (weekNumber < 1 || weekNumber > ISOWeek.GetWeeksInYear(year))
+        {
+            throw new ArgumentException("Veckonumret är ogiltigt för det valda året.");
+        }
 
-    // DEMO: samma siffror oavsett vilken övning som efterfrågas.
-    // Ersätt med högsta vikt och summan av alla set för övningen, i alla pass.
+        DateOnly date = DateOnly.FromDateTime(
+            ISOWeek.ToDateTime(year, weekNumber, DayOfWeek.Monday));
+
+        DateOnly start = date.StartOfWeek();
+        DateOnly end = date.EndOfWeek();
+
+        var workouts = _repository.GetAllWorkouts()
+            .Where(w => w.AthleteId == athleteId
+                && w.Date >= start
+                && w.Date <= end)
+            .ToList();
+
+        var minutesPerType = workouts
+            .GroupBy(w => w.TrainingTypeId)
+            .Select(group => new TrainingTypeMinutes
+            {
+                TrainingTypeName = _repository
+                    .GetTrainingType(group.Key)?.Name ?? "Okänd",
+
+                Minutes = group.Sum(w => w.TimeInMinutes),
+
+                GoalMinutes = _repository
+                    .GetWeeklyGoal(athleteId, group.Key)?.TargetMinutes
+            })
+            .ToList();
+
+        return new WeekOverview
+        {
+            Year = year,
+            Week = weekNumber,
+            WorkoutCount = workouts.Count,
+            TotalMinutes = workouts.Sum(w => w.TimeInMinutes),
+            MinutesPerType = minutesPerType
+        };
+    }
+
     public ExerciseStats GetExerciseStats(int athleteId, string exerciseName) => new()
     {
         ExerciseName = exerciseName,
